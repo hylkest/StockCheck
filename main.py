@@ -13,7 +13,10 @@ STOCKS = {
     "ASML": None,
     "GOOG": None,
     "GOOGL": None,
-    "NVDA": None
+    "NVDA": None,
+    "AAPL": None,
+    "TSLA": None,
+    "PLTR": None,
 }
 THRESHOLD = -5
 EMAIL_SENDER = os.getenv("EMAIL")
@@ -24,6 +27,11 @@ ALERTED_STOCKS = {}
 def load_email_template():
     print("[INFO] Laad e-mailtemplate...")
     with open("email_template.html", "r") as file:
+        return file.read()
+
+def load_startup_template():
+    print("[INFO] Laad e-mailtemplate...")
+    with open("startup_template.html", "r") as file:
         return file.read()
 
 def get_stock_prices():
@@ -81,7 +89,7 @@ def send_email(stock, percentage_change):
 
 def send_startup_email():
     subject = "Stock Monitor gestart"
-    body = load_email_template().format(stock="START MAIL", change="START MAIL")
+    body = load_startup_template().format(stock="START MAIL", change="START MAIL")
     msg = MIMEMultipart()
     msg["Subject"] = subject
     msg["From"] = EMAIL_SENDER
