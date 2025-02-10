@@ -114,7 +114,6 @@ def send_startup_email():
         print(f"[ERROR] Fout bij verzenden opstart e-mail: {e}")
 
 print("[INFO] Stock monitor draait...")
-print(f"[INFO] Gebruiker: {EMAIL_SENDER}")
 send_startup_email()
 
 check_stocks()
