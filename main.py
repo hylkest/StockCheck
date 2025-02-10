@@ -6,6 +6,10 @@ import time
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from datetime import datetime
+
+current_time = datetime.now()
+current_time_formatted = current_time.strftime("%d/%m/%Y %H:%M:%S")
 
 load_dotenv()
 
@@ -17,8 +21,13 @@ STOCKS = {
     "AAPL": None,
     "TSLA": None,
     "PLTR": None,
+    "NFLX": None,
+    "JPM": None,
+    "META": None,
+    "AMZN": None,
+    "ORCL": None
 }
-THRESHOLD = -5
+THRESHOLD = -4
 EMAIL_SENDER = os.getenv("EMAIL")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
 EMAIL_RECEIVER = os.getenv("EMAIL_RECEIVER")
@@ -48,12 +57,12 @@ def get_stock_prices():
             print(f"[WARNING] Geen data voor {stock} gevonden.")
 
 def check_stocks():
-    print("\n[INFO] Veranderingen in prijs berekenen...")
+    print(f"\n[INFO] Calculating changes... - {current_time_formatted}")
     get_stock_prices()
 
     for stock, (prev_close, current_price) in STOCKS.items():
         percentage_change = ((current_price - prev_close) / prev_close) * 100
-        print(f"[INFO] {stock}: {percentage_change:.2f}% verandering")
+        print(f"[INFO] {stock}: {percentage_change:.2f}% change")
 
         if percentage_change <= THRESHOLD:
             if stock not in ALERTED_STOCKS or not ALERTED_STOCKS[stock]:
